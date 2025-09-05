@@ -11,7 +11,7 @@ See [LICENSE](LICENSE) for details.
 
 ## 👨‍💻 Author
 
-**Knoph Oluoch Ayieko**  
+**Knoh Ayieko**  
 - 🌐 Portfolio: [knoph.dev](https://knoph.dev)  
 - 💼 LinkedIn: [Knoph Ayieko](https://linkedin.com/in/knoph-ayieko)  
 - 🐙 GitHub: [Knoph1](https://github.com/Knoph1)  
