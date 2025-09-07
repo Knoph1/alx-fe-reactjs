@@ -1,22 +1,12 @@
-import ProfilePage from "./ProfilePage";
-import UserContext from "./UserContext";
-import Counter from "./Counter";
+import ProfilePage from './ProfilePage';
+import UserContext from './UserContext';
 
 function App() {
-  const userData = {
-    name: "Jane Doe",
-    email: "jane.doe@example.com",
-    age: 28,
-    bio: "A passionate software developer who loves React!",
-  };
+  const userData = { name: "Jane Doe", email: "jane.doe@example.com" };
 
   return (
     <UserContext.Provider value={userData}>
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <h1>Welcome to the App</h1>
-        <ProfilePage />
-        <Counter />
-      </div>
+      <ProfilePage />
     </UserContext.Provider>
   );
 }
