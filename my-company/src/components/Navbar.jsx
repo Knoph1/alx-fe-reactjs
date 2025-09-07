@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 function Navbar() {
   const navStyle = {
     padding: '10px',
-    background: '#333',
+    backgroundColor: '#333',
     color: 'white',
     display: 'flex',
+    justifyContent: 'space-between',
     gap: '20px'
   };
 
