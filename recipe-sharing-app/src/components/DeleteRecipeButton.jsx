@@ -5,7 +5,8 @@ const DeleteRecipeButton = ({ recipeId }) => {
   const deleteRecipe = useRecipeStore((state) => state.deleteRecipe);
   const navigate = useNavigate();
 
-  const handleDelete = () => {
+  const handleDelete = (event) => {
+    event.preventDefault(); // ✅ ensures form/links don’t reload
     deleteRecipe(recipeId);
     alert('Recipe deleted successfully!');
     navigate('/');
