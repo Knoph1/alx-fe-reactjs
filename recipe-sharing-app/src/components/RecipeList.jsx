@@ -1,5 +1,6 @@
+// src/components/RecipeList.jsx
 import React from 'react';
-import RecipeCard from './RecipeCard';
+import { Link } from 'react-router-dom';
 import { useRecipeStore } from '../store/recipeStore';
 
 const RecipeList = () => {
@@ -9,7 +10,14 @@ const RecipeList = () => {
     <div className="recipe-list grid gap-4">
       {filteredRecipes.length > 0 ? (
         filteredRecipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+          <div key={recipe.id} className="p-4 border rounded shadow">
+            <h3 className="text-lg font-semibold">
+              <Link to={`/recipe/${recipe.id}`} className="text-blue-500 hover:underline">
+                {recipe.title}
+              </Link>
+            </h3>
+            <p>{recipe.description}</p>
+          </div>
         ))
       ) : (
         <p>No recipes match your search.</p>
