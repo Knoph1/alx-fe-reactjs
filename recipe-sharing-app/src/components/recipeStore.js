@@ -8,6 +8,7 @@ export const useRecipeStore = create((set) => ({
   recommendations: [],
 
   // Recipe actions
+  setRecipes: (recipes) => set({ recipes }),  // ✅ Added
   addRecipe: (newRecipe) =>
     set((state) => ({ recipes: [...state.recipes, newRecipe] })),
   updateRecipe: (updatedRecipe) =>
@@ -47,7 +48,7 @@ export const useRecipeStore = create((set) => ({
     set((state) => {
       const recommended = state.recipes.filter(
         (recipe) =>
-          state.favorites.includes(recipe.id) && Math.random() > 0.3 // mock relevance
+          state.favorites.includes(recipe.id) && Math.random() > 0.3
       );
       return { recommendations: recommended };
     }),
