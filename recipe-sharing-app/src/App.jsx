@@ -16,6 +16,7 @@ function App() {
         </nav>
 
         <Routes>
+          {/* Home Route */}
           <Route
             path="/"
             element={
@@ -26,6 +27,8 @@ function App() {
               </>
             }
           />
+
+          {/* Recipe Details Route */}
           <Route path="/recipe/:id" element={<RecipeDetails />} />
         </Routes>
       </div>
