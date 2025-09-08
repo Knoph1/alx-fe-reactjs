@@ -1,3 +1,5 @@
+import React from 'react';
+import RecipeCard from './RecipeCard';
 import { useRecipeStore } from '../store/recipeStore';
 import { Link } from 'react-router-dom';
 
@@ -17,6 +19,22 @@ const RecipeList = () => {
             </h3>
           </div>
         ))
+      )}
+    </div>
+  );
+};
+
+const RecipeList = () => {
+  const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
+
+  return (
+    <div className="recipe-list grid gap-4">
+      {filteredRecipes.length > 0 ? (
+        filteredRecipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} />
+        ))
+      ) : (
+        <p>No recipes match your search.</p>
       )}
     </div>
   );
