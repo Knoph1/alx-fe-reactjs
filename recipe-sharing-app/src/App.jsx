@@ -4,6 +4,8 @@ import SearchBar from './components/SearchBar';
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
 
 function App() {
   return (
@@ -12,7 +14,9 @@ function App() {
         <h1 className="text-2xl font-bold mb-4">Recipe Sharing App</h1>
         
         <nav className="mb-4">
-          <Link to="/" className="mr-4">Home</Link>
+                  <Link to="/" className="mr-4">Home</Link>
+                  <Link to="/favorites" className="mr-4">Favorites</Link>
+                  <Link to="/recommendations">Recommendations</Link>
         </nav>
 
         <Routes>
@@ -29,7 +33,9 @@ function App() {
           />
 
           {/* Recipe Details Route */}
-          <Route path="/recipe/:id" element={<RecipeDetails />} />
+                  <Route path="/recipe/:id" element={<RecipeDetails />} />
+                  <Route path="/favorites" element={<FavoritesList />} />
+                  <Route path="/recommendations" element={<RecommendationsList />} />
         </Routes>
       </div>
     </Router>
