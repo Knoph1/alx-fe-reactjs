@@ -1,4 +1,3 @@
-// src/components/RecipeList.jsx
 import React from 'react';
 import RecipeCard from './RecipeCard';
 import { useRecipeStore } from '../store/recipeStore';
