@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { fetchUserData } from "../api/github";
+import { searchUsers } from "../services/githubService";
 
 export default function Search() {
   const [query, setQuery] = useState("");
-  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -13,11 +13,11 @@ export default function Search() {
 
     setLoading(true);
     setError("");
-    setUser(null);
+    setUsers([]);
 
     try {
-      const data = await fetchUserData(query);
-      setUser(data);
+      const results = await searchUsers(query);
+      setUsers(results);
     } catch (err) {
       setError("Looks like we cant find the user");
     } finally {
@@ -32,7 +32,7 @@ export default function Search() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search GitHub username..."
+          placeholder="Search GitHub users..."
           className="border rounded p-2 flex-1"
         />
         <button
@@ -46,26 +46,34 @@ export default function Search() {
       <div className="mt-4">
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-600">{error}</p>}
-        {user && (
-          <div className="flex items-center gap-4 mt-4">
-            <img
-              src={user.avatar_url}
-              alt={user.login}
-              className="w-16 h-16 rounded-full"
-            />
-            <div>
-              <h2 className="font-bold text-lg">{user.login}</h2>
+
+        {!loading && !error && users.length === 0 && (
+          <p className="text-gray-500">Looks like we cant find the user</p>
+        )}
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+          {users.map((user) => (
+            <div
+              key={user.id}
+              className="bg-white shadow rounded-lg p-4 flex flex-col items-center"
+            >
+              <img
+                src={user.avatar_url}
+                alt={user.login}
+                className="w-20 h-20 rounded-full border mb-3"
+              />
+              <h3 className="text-lg font-semibold">{user.login}</h3>
               <a
                 href={user.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500"
+                className="text-blue-600 hover:underline mt-2"
               >
                 View Profile
               </a>
             </div>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
     </div>
   );
