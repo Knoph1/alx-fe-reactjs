@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { fetchUserData } from "../services/githubService";
 
-export default function Search() {
-  const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+function Search() {
+  const [username, setUsername] = useState("");   // input state
+  const [user, setUser] = useState(null);         // user data state
+  const [loading, setLoading] = useState(false);  // loading state
+  const [error, setError] = useState(null);       // error state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setUserData(null);
+    setError(null);
+    setUser(null);
 
     try {
       const data = await fetchUserData(username);
-      setUserData(data);
+      setUser(data);
     } catch (err) {
       setError("Looks like we can’t find the user");
     } finally {
@@ -24,47 +24,50 @@ export default function Search() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      {/* Search Form */}
-      <form onSubmit={handleSubmit} className="flex items-center gap-2 mb-6">
+    <div className="w-full max-w-md">
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="flex mb-6">
         <input
           type="text"
+          placeholder="Enter GitHub username..."
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter GitHub username..."
-          className="flex-1 border rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring focus:border-blue-500"
-          required
+          className="flex-grow px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition"
         >
           Search
         </button>
       </form>
 
-      {/* Conditional Rendering */}
-      {loading && <p className="text-gray-500">Loading...</p>}
+      {/* Conditional rendering */}
+      {loading && <p className="text-gray-600">Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
-      {userData && (
-        <div className="bg-white shadow-md rounded-lg p-4 text-center">
+
+      {user && (
+        <div className="bg-white shadow-md rounded-lg p-4 flex items-center">
           <img
-            src={userData.avatar_url}
-            alt={userData.login}
-            className="w-24 h-24 rounded-full mx-auto mb-3"
+            src={user.avatar_url}
+            alt={user.login}
+            className="w-16 h-16 rounded-full mr-4"
           />
-          <h2 className="text-xl font-semibold">{userData.name || "No Name"}</h2>
-          <p className="text-gray-600">@{userData.login}</p>
-          <a
-            href={userData.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline mt-2 inline-block"
-          >
-            View Profile
-          </a>
+          <div>
+            <h2 className="text-xl font-bold">{user.name || user.login}</h2>
+            <a
+              href={user.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              View Profile
+            </a>
+          </div>
         </div>
       )}
     </div>
   );
 }
+
+export default Search;

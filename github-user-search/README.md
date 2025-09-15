@@ -18,7 +18,10 @@ If you are developing a production application, we recommend using TypeScript wi
 github-user-search/
 │── src/
 │   ├── components/       # Reusable React components (SearchBar, UserCard, etc.)
+src/
+│   |   ├── Search.jsx
 │   ├── services/         # API call logic (githubApi.js)
+│   |   ├── githubService.js
 │   ├── App.jsx           # Main app entry
 │   ├── main.jsx          # React root render
 │   └── index.css         # Global styles (Tailwind setup will also go here)
