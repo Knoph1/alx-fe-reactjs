@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const BASE_URL = "https://api.github.com";
+
 // Basic search: single user lookup
 export const fetchUserData = async (username) => {
   try {
