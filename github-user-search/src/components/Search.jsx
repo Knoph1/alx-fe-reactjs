@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { fetchUserData } from "../api/github";
 
 export default function Search() {
   const [query, setQuery] = useState("");
@@ -15,11 +16,7 @@ export default function Search() {
     setUser(null);
 
     try {
-      const res = await fetch(`https://api.github.com/users/${query}`);
-      if (!res.ok) {
-        throw new Error("User not found");
-      }
-      const data = await res.json();
+      const data = await fetchUserData(query);
       setUser(data);
     } catch (err) {
       setError("Looks like we cant find the user");
