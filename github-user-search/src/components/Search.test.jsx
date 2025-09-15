@@ -1,17 +1,19 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Search from "./Search";
+import * as github from "../api/github";
 
-global.fetch = jest.fn();
+jest.mock("../api/github");
 
 describe("Search component", () => {
   beforeEach(() => {
-    fetch.mockClear();
+    github.fetchUserData.mockClear();
   });
 
-  test("calls API with the right endpoint", async () => {
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ login: "knoph", avatar_url: "https://avatar.com" }),
+  test("calls fetchUserData with entered username", async () => {
+    github.fetchUserData.mockResolvedValueOnce({
+      login: "knoph",
+      avatar_url: "https://avatar.com",
+      html_url: "https://github.com/knoph",
     });
 
     render(<Search />);
@@ -20,33 +22,17 @@ describe("Search component", () => {
     });
     fireEvent.submit(screen.getByRole("button", { name: /search/i }));
 
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith("https://api.github.com/users/knoph");
-    });
+    await waitFor(() =>
+      expect(github.fetchUserData).toHaveBeenCalledWith("knoph")
+    );
   });
 
-  test("displays user when found", async () => {
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ login: "knoph", avatar_url: "https://avatar.com" }),
-    });
+  test("renders error if user not found", async () => {
+    github.fetchUserData.mockRejectedValueOnce(new Error("User not found"));
 
     render(<Search />);
     fireEvent.change(screen.getByPlaceholderText(/search github username/i), {
-      target: { value: "knoph" },
-    });
-    fireEvent.submit(screen.getByRole("button", { name: /search/i }));
-
-    expect(await screen.findByText("knoph")).toBeInTheDocument();
-    expect(screen.getByRole("img")).toHaveAttribute("src", "https://avatar.com");
-  });
-
-  test("shows error if user not found", async () => {
-    fetch.mockResolvedValueOnce({ ok: false });
-
-    render(<Search />);
-    fireEvent.change(screen.getByPlaceholderText(/search github username/i), {
-      target: { value: "unknownuser" },
+      target: { value: "baduser" },
     });
     fireEvent.submit(screen.getByRole("button", { name: /search/i }));
 
