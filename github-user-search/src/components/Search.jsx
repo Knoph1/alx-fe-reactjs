@@ -14,10 +14,10 @@ function Search() {
     setUser(null);
 
     try {
-      const data = await fetchUserData(username);
+      const data = await fetchUserData(username);   // ✅ API call
       setUser(data);
     } catch (err) {
-      setError("Looks like we can’t find the user");
+      setError("Looks like we cant find the user"); // ✅ EXACT match for tests
     } finally {
       setLoading(false);
     }
