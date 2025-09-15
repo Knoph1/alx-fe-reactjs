@@ -1,73 +1,62 @@
 import { useState } from "react";
-import { fetchUserData } from "../services/githubService";
 
-function Search() {
-  const [username, setUsername] = useState("");   // input state
-  const [user, setUser] = useState(null);         // user data state
-  const [loading, setLoading] = useState(false);  // loading state
-  const [error, setError] = useState(null);       // error state
+const Search = ({ onSearch }) => {
+  const [username, setUsername] = useState("");
+  const [location, setLocation] = useState("");
+  const [minRepos, setMinRepos] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setUser(null);
-
-    try {
-      const data = await fetchUserData(username);   // ✅ API call
-      setUser(data);
-    } catch (err) {
-      setError("Looks like we cant find the user"); // ✅ EXACT match for tests
-    } finally {
-      setLoading(false);
-    }
+    onSearch({ username, location, minRepos });
   };
 
   return (
-    <div className="w-full max-w-md">
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="flex mb-6">
+    <div className="w-full max-w-2xl mx-auto p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-2xl p-6 flex flex-col gap-4"
+      >
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">
+          GitHub Advanced User Search
+        </h2>
+
+        {/* Username */}
         <input
           type="text"
-          placeholder="Enter GitHub username..."
+          placeholder="Search by username..."
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="flex-grow px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
         />
+
+        {/* Location */}
+        <input
+          type="text"
+          placeholder="Filter by location (e.g., Kenya, USA)"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+        />
+
+        {/* Minimum Repositories */}
+        <input
+          type="number"
+          placeholder="Minimum repositories (e.g., 10)"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+        />
+
+        {/* Submit */}
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition"
         >
           Search
         </button>
       </form>
-
-      {/* Conditional rendering */}
-      {loading && <p className="text-gray-600">Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-
-      {user && (
-        <div className="bg-white shadow-md rounded-lg p-4 flex items-center">
-          <img
-            src={user.avatar_url}
-            alt={user.login}
-            className="w-16 h-16 rounded-full mr-4"
-          />
-          <div>
-            <h2 className="text-xl font-bold">{user.name || user.login}</h2>
-            <a
-              href={user.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              View Profile
-            </a>
-          </div>
-        </div>
-      )}
     </div>
   );
-}
+};
 
 export default Search;
