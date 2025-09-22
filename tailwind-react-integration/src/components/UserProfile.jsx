@@ -4,7 +4,7 @@ function UserProfile() {
       className="
         bg-gray-100 
         p-2 sm:p-4 md:p-8 
-        max-w-xs sm:max-w-sm 
+        max-w-xs sm:max-w-sm md:max-w-sm 
         mx-auto my-10 sm:my-16 md:my-20 
         rounded-lg shadow-lg
       "
