@@ -3,7 +3,7 @@ function UserProfile() {
     <div
       className="
         bg-gray-100 
-        p-4 sm:p-6 md:p-8 
+        p-2 sm:p-4 md:p-8 
         max-w-xs sm:max-w-sm 
         mx-auto my-10 sm:my-16 md:my-20 
         rounded-lg shadow-lg
@@ -15,14 +15,14 @@ function UserProfile() {
         className="
           rounded-full 
           mx-auto 
-          w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36
+          w-20 h-20 sm:w-24 sm:h-24 md:w-36 md:h-36
         "
       />
       <h1
         className="
-          text-lg sm:text-xl 
+          text-base sm:text-lg md:text-xl 
           text-blue-800 
-          my-3 sm:my-4
+          my-2 sm:my-3 md:my-4
           text-center
         "
       >
@@ -30,7 +30,7 @@ function UserProfile() {
       </h1>
       <p
         className="
-          text-sm sm:text-base 
+          text-xs sm:text-sm md:text-base 
           text-gray-600 
           text-center
         "
