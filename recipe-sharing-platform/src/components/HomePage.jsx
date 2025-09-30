@@ -5,7 +5,7 @@ function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    fetch("/data.json") // ✅ must be public/data.json, not /src/data.json
+    fetch("/data.json") // ✅ must be in public/data.json
       .then((res) => res.json())
       .then((data) => setRecipes(data))
       .catch((err) => console.error("Error loading recipes:", err));
@@ -17,26 +17,34 @@ function HomePage() {
         Recipe Sharing Platform
       </h1>
 
-      {/* Responsive grid */}
+      {/* Responsive grid of recipes */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         {recipes.map((recipe) => (
-          <Link to={`/recipe/${recipe.id}`}>
+          <Link key={recipe.id} to={`/recipe/${recipe.id}`}>
             <div className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl hover:scale-105 transition transform duration-300">
-                <img
+              <img
                 src={recipe.image}
                 alt={recipe.title}
                 className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
+              />
+              <div className="p-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                    {recipe.title}
+                  {recipe.title}
                 </h2>
                 <p className="text-gray-600 text-sm">{recipe.summary}</p>
-                </div>
+              </div>
             </div>
-            </Link>
+          </Link>
         ))}
       </div>
+
+      {/* Add Recipe button (outside the map loop) */}
+      <Link
+        to="/add-recipe"
+        className="block text-center mt-8 bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition w-full sm:w-auto mx-auto"
+      >
+        + Add New Recipe
+      </Link>
     </div>
   );
 }
