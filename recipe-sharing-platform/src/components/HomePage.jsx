@@ -5,7 +5,7 @@ function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    fetch("/data.json") // ✅ must be in public/data.json
+    fetch("/data.json") // ✅ must be public/data.json, not /src/data.json
       .then((res) => res.json())
       .then((data) => setRecipes(data))
       .catch((err) => console.error("Error loading recipes:", err));
@@ -17,7 +17,7 @@ function HomePage() {
         Recipe Sharing Platform
       </h1>
 
-      {/* Responsive grid of recipes */}
+      {/* Responsive grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         {recipes.map((recipe) => (
           <Link key={recipe.id} to={`/recipe/${recipe.id}`}>
@@ -38,13 +38,15 @@ function HomePage() {
         ))}
       </div>
 
-      {/* Add Recipe button (outside the map loop) */}
-      <Link
-        to="/add-recipe"
-        className="block text-center mt-8 bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition w-full sm:w-auto mx-auto"
-      >
-        + Add New Recipe
-      </Link>
+      {/* Add new recipe button - outside loop */}
+      <div className="mt-8 flex justify-center">
+        <Link
+          to="/add-recipe"
+          className="block text-center bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 transition"
+        >
+          + Add New Recipe
+        </Link>
+      </div>
     </div>
   );
 }
