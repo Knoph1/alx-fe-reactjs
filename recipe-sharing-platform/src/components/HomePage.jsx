@@ -20,26 +20,21 @@ function HomePage() {
       {/* Responsive grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         {recipes.map((recipe) => (
-          <Link
-            to={`/recipe/${recipe.id}`}
-            key={recipe.id}
-            className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl hover:scale-105 transition transform duration-300"
-          >
-            <img
-              src={recipe.image}
-              alt={recipe.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {recipe.title}
-              </h2>
-              <p className="text-gray-600 text-sm">{recipe.summary}</p>
-              <span className="inline-block mt-3 text-blue-600 font-medium hover:underline">
-                View Recipe →
-              </span>
+          <Link to={`/recipe/${recipe.id}`}>
+            <div className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl hover:scale-105 transition transform duration-300">
+                <img
+                src={recipe.image}
+                alt={recipe.title}
+                className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                    {recipe.title}
+                </h2>
+                <p className="text-gray-600 text-sm">{recipe.summary}</p>
+                </div>
             </div>
-          </Link>
+            </Link>
         ))}
       </div>
     </div>
