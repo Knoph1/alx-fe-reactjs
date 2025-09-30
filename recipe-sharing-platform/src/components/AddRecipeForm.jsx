@@ -3,19 +3,18 @@ import { useState } from "react";
 function AddRecipeForm() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState(""); // ✅ Added steps
+  const [steps, setSteps] = useState(""); // ✅ Steps included
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  // ✅ Separate validate() function
+  const validate = () => {
     const newErrors = {};
 
     if (!title.trim()) newErrors.title = "Recipe title is required";
     if (!ingredients.trim()) newErrors.ingredients = "Ingredients are required";
     if (!steps.trim()) newErrors.steps = "Preparation steps are required";
 
-    // Example validation: at least 2 ingredients (split by commas/newlines)
+    // Ensure at least 2 ingredients
     const ingredientList = ingredients
       .split(/,|\n/)
       .map((i) => i.trim())
@@ -24,13 +23,19 @@ function AddRecipeForm() {
       newErrors.ingredients = "Please enter at least 2 ingredients";
     }
 
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = validate(); // ✅ use validate()
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // ✅ Later, this could be sent to an API or global state
       console.log({
         title,
-        ingredients: ingredientList,
+        ingredients: ingredients.split(/,|\n/).map((i) => i.trim()).filter((i) => i !== ""),
         steps,
       });
 
