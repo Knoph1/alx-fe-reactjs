@@ -1,35 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function FormikForm() {
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+  };
+
+  const validationSchema = Yup.object({
+    username: Yup.string().required("Username is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
+
+  const handleSubmit = (values, { resetForm }) => {
+    console.log("Formik Submission:", values);
+    alert("User registered successfully!");
+    resetForm();
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div style={{ maxWidth: "400px", margin: "2rem auto" }}>
+      <h2>Formik Registration Form</h2>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <div>
+            <Field name="username" type="text" placeholder="Username" />
+            <ErrorMessage
+              name="username"
+              component="div"
+              style={{ color: "red" }}
+            />
+          </div>
 
-export default App
+          <div>
+            <Field name="email" type="email" placeholder="Email" />
+            <ErrorMessage
+              name="email"
+              component="div"
+              style={{ color: "red" }}
+            />
+          </div>
+
+          <div>
+            <Field name="password" type="password" placeholder="Password" />
+            <ErrorMessage
+              name="password"
+              component="div"
+              style={{ color: "red" }}
+            />
+          </div>
+
+          <button type="submit">Register</button>
+        </Form>
+      </Formik>
+    </div>
+  );
+}
