@@ -7,6 +7,7 @@ export default function RegistrationForm() {
     password: "",
   });
 
+  // error-zone
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
