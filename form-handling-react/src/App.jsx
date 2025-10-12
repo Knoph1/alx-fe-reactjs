@@ -4,7 +4,7 @@ import FormikForm from "./components/FormikForm";
 function App() {
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>React Form Handling Demo</h1>
+      <h1 style={{ textAlign: "center" }}>React Form Handling</h1>
       <RegistrationForm />
       <hr />
       <FormikForm />
