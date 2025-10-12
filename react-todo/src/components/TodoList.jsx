@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import AddTodoForm from "./AddTodoForm";
 
 export default function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build Projects", completed: true },
-    { id: 3, text: "Practice Daily", completed: false },
+    { id: 2, text: "Build a project", completed: false },
   ]);
 
-  const addTodo = (text) => {
-    const newTodo = { id: Date.now(), text, completed: false };
-    setTodos([...todos, newTodo]);
+  const [newTodo, setNewTodo] = useState("");
+
+  const addTodo = (e) => {
+    e.preventDefault();
+    if (newTodo.trim() === "") return;
+    const newItem = { id: Date.now(), text: newTodo, completed: false };
+    setTodos([...todos, newItem]);
+    setNewTodo("");
   };
 
   const toggleTodo = (id) => {
@@ -26,29 +29,40 @@ export default function TodoList() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-4 border rounded-lg shadow">
-      <h1 className="text-2xl font-bold mb-4 text-center">Todo List</h1>
-      <AddTodoForm onAddTodo={addTodo} />
+    <div>
+      <h1>Todo List</h1>
+
+      <form onSubmit={addTodo} data-testid="form">
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Add new todo"
+          data-testid="input"
+        />
+        <button type="submit">Add</button>
+      </form>
+
       <ul>
         {todos.map((todo) => (
           <li
             key={todo.id}
-            data-testid="todo-item"
             onClick={() => toggleTodo(todo.id)}
-            className={`cursor-pointer py-2 flex justify-between ${
-              todo.completed ? "line-through text-gray-500" : ""
-            }`}
+            style={{
+              textDecoration: todo.completed ? "line-through" : "none",
+              cursor: "pointer",
+            }}
+            data-testid="todo-item"
           >
             {todo.text}
             <button
-              data-testid="delete-btn"
               onClick={(e) => {
                 e.stopPropagation();
                 deleteTodo(todo.id);
               }}
-              className="text-red-600 hover:text-red-800"
+              data-testid="delete-btn"
             >
-              ✕
+              Delete
             </button>
           </li>
         ))}
