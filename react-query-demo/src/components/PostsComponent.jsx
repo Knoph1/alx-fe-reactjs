@@ -1,17 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 
+// ✅ Named async function for fetching posts
+const fetchPosts = async () => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!response.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return response.json();
+};
+
 function PostsComponent() {
-  const { data, error, isLoading, refetch, isFetching } = useQuery({
+  // ✅ Include isError instead of just error
+  const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
     queryKey: ["posts"],
-    queryFn: async () => {
-      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-      if (!res.ok) throw new Error("Failed to fetch posts");
-      return res.json();
-    },
+    queryFn: fetchPosts,
   });
 
   if (isLoading) return <p>Loading posts...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (isError) return <p>Error: {error.message}</p>;
 
   return (
     <div style={{ padding: "20px" }}>
@@ -33,24 +39,3 @@ function PostsComponent() {
 }
 
 export default PostsComponent;
-3. Make sure your App.jsx imports it
-jsx
-Copy code
-// src/App.jsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import PostsComponent from "./components/PostsComponent";
-
-const queryClient = new QueryClient();
-
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <div>
-        <h1>React Query Demo – Fetch Posts</h1>
-        <PostsComponent />
-      </div>
-    </QueryClientProvider>
-  );
-}
-
-export default App;
