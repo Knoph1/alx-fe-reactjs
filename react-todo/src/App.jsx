@@ -1,12 +1,10 @@
 import React from "react";
 import TodoList from "./components/TodoList";
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
+    <div className="min-h-screen bg-gray-50 p-6">
       <TodoList />
     </div>
   );
 }
-
-export default App;

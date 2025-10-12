@@ -5,25 +5,25 @@ export default function AddTodoForm({ onAddTodo }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (text.trim() === "") return;
+    if (!text.trim()) return;
     onAddTodo(text);
     setText("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-2">
+    <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
       <input
+        data-testid="todo-input"
         type="text"
-        placeholder="Add a new todo"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        data-testid="todo-input"
-        className="border rounded px-3 py-1 flex-grow"
+        placeholder="Enter new todo..."
+        className="flex-1 border p-2 rounded"
       />
       <button
+        data-testid="add-btn"
         type="submit"
-        data-testid="add-button"
-        className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         Add
       </button>

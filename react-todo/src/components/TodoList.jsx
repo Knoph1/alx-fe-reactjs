@@ -4,7 +4,8 @@ import AddTodoForm from "./AddTodoForm";
 export default function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: true },
+    { id: 2, text: "Build Projects", completed: true },
+    { id: 3, text: "Practice Daily", completed: false },
   ]);
 
   const addTodo = (text) => {
@@ -25,29 +26,29 @@ export default function TodoList() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-3xl font-bold mb-4 text-center">Todo List</h1>
+    <div className="max-w-md mx-auto mt-10 p-4 border rounded-lg shadow">
+      <h1 className="text-2xl font-bold mb-4 text-center">Todo List</h1>
       <AddTodoForm onAddTodo={addTodo} />
-      <ul className="mt-4">
+      <ul>
         {todos.map((todo) => (
           <li
             key={todo.id}
+            data-testid="todo-item"
             onClick={() => toggleTodo(todo.id)}
-            data-testid={`todo-${todo.id}`}
-            className={`flex justify-between items-center p-2 border-b cursor-pointer ${
+            className={`cursor-pointer py-2 flex justify-between ${
               todo.completed ? "line-through text-gray-500" : ""
             }`}
           >
-            <span>{todo.text}</span>
+            {todo.text}
             <button
+              data-testid="delete-btn"
               onClick={(e) => {
                 e.stopPropagation();
                 deleteTodo(todo.id);
               }}
-              data-testid={`delete-${todo.id}`}
-              className="text-red-500 hover:text-red-700"
+              className="text-red-600 hover:text-red-800"
             >
-              Delete
+              ✕
             </button>
           </li>
         ))}
