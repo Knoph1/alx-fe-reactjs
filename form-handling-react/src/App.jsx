@@ -1,5 +1,5 @@
 import RegistrationForm from "./components/RegistrationForm";
-import FormikForm from "./components/FormikForm";
+import FormikForm from "./components/formikForm"; // ✅ lowercase 'f'
 
 function App() {
   return (
