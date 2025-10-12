@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -8,35 +9,26 @@ import ProfileSettings from "./pages/ProfileSettings";
 import Post from "./pages/Post";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import BlogPost from "./components/BlogPost";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Navbar />
+    <Router>
+      <div className="p-6">
+        <h1 className="text-3xl font-bold mb-4 text-center">
+          React Router Advanced
+        </h1>
+
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-
-          {/* ✅ Protected parent route */}
-          <Route
-            path="/profile/*"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          >
-            {/* ✅ Nested routes */}
-            <Route path="details" element={<ProfileDetails />} />
-            <Route path="settings" element={<ProfileSettings />} />
-          </Route>
-
-          {/* ✅ Dynamic route */}
-          <Route path="/post/:id" element={<Post />} />
+          <Route path="/profile/*" element={<Profile />} />
+          {/* Dynamic route */}
+          <Route path="/blog/:id" element={<BlogPost />} />
         </Routes>
-      </Router>
-    </AuthProvider>
+      </div>
+    </Router>
   );
 }
 
