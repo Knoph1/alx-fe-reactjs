@@ -3,7 +3,8 @@ import TodoList from "./components/TodoList";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div style={{ padding: 20, fontFamily: "Arial, sans-serif" }}>
+      <h1>Todo App — React + Tests</h1>
       <TodoList />
     </div>
   );
