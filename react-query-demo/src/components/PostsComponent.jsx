@@ -1,6 +1,7 @@
+// src/components/PostsComponent.jsx
 import { useQuery } from "@tanstack/react-query";
 
-// ✅ Named async function for fetching posts
+// ✅ Named async function to fetch posts
 const fetchPosts = async () => {
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
   if (!response.ok) {
@@ -10,10 +11,21 @@ const fetchPosts = async () => {
 };
 
 function PostsComponent() {
-  // ✅ Include isError instead of just error
-  const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
+  // ✅ Include cache configuration and required flags
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isFetching,
+  } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
+    staleTime: 1000 * 60 * 2, // 2 minutes before data is considered stale
+    cacheTime: 1000 * 60 * 5, // keep data in cache for 5 minutes after unmount
+    refetchOnWindowFocus: true, // refetch when user focuses the window
+    keepPreviousData: true, // keep old data while fetching new data
   });
 
   if (isLoading) return <p>Loading posts...</p>;
@@ -21,7 +33,7 @@ function PostsComponent() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Posts</h2>
+      <h2>Posts (React Query Caching Demo)</h2>
       <button onClick={() => refetch()} disabled={isFetching}>
         {isFetching ? "Refreshing..." : "Refetch Posts"}
       </button>
@@ -34,6 +46,10 @@ function PostsComponent() {
           </li>
         ))}
       </ul>
+
+      <p style={{ color: "gray" }}>
+        Cached for 5 min | Stale after 2 min | Refetch on focus: enabled
+      </p>
     </div>
   );
 }
